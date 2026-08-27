@@ -1,0 +1,52 @@
+{
+  "name": "dsh-edict",
+  "version": "0.1.0",
+  "description": "三省六部 · Edict for DeepSeek Harness: institutional multi-agent pipeline (太子分拣→中书规划→门下封驳→尚书派发→六部并行执行→回奏) with an enforced task state machine, full audit trail, and a real-time 军机处 kanban dashboard.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./client/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "client",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "multi-agent",
+    "edict",
+    "sansheng-liubu",
+    "三省六部",
+    "kanban",
+    "workflow",
+    "review-gate"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": ["slots", "sessions"],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
