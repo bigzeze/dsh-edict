@@ -155,6 +155,24 @@ window.__ModuleLoader__.load({
       } catch (e) { try { console.warn("[dsh-edict] control forward failed:", e && e.message ? e.message : e); } catch (_) { /* no console */ } }
     }
 
+    /* One-click issue from the welcome hero: send the example edict text into
+       the current session as a plain user message; the model triages it through
+       the pipeline. Same-origin checked by the caller. */
+    function sendIssueToConversation(hostCtx, d) {
+      try {
+        if (!hostCtx || !hostCtx.sessions) return;
+        if (typeof d.text !== "string" || !d.text.trim()) return;
+        var text = d.text.slice(0, 200);
+        var sid;
+        try { sid = hostCtx.sessions.list.getSnapshot().current; } catch (e) { sid = undefined; }
+        if (!sid) return;
+        var conv;
+        try { conv = hostCtx.sessions.scope(sid) && hostCtx.sessions.scope(sid).get("conversation"); } catch (e) { conv = undefined; }
+        if (!conv || typeof conv.send !== "function") return;
+        Promise.resolve(conv.send(text)).catch(function () { /* best effort */ });
+      } catch (e) { try { console.warn("[dsh-edict] issue forward failed:", e && e.message ? e.message : e); } catch (_) { /* no console */ } }
+    }
+
     function apply(ctx) {
       function safe(label, fn) {
         try { fn(); }
@@ -184,9 +202,10 @@ window.__ModuleLoader__.load({
         window.addEventListener("message", function (ev) {
           try {
             var d = ev.data;
-            if (!d || d.source !== "edict" || d.type !== "control") return;
+            if (!d || d.source !== "edict" || (d.type !== "control" && d.type !== "issue")) return;
             try { if (ev.origin !== window.location.origin) return; } catch (e) { /* same-origin check best effort */ }
-            sendControlToConversation(ctx, d);
+            if (d.type === "control") sendControlToConversation(ctx, d);
+            else sendIssueToConversation(ctx, d);
           } catch (e) { /* never break the message stream */ }
         });
       });
