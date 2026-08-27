@@ -1,0 +1,8 @@
+# dsh-edict bundle for DeepSeek Harness (dsh).
+# Inserted into the profile's composition when this bundle is installed
+# (`dsh plugin --profile web add link:/path/to/dsh-edict`). The node half
+# registers the 三省六部 edict_* tools, injects the pipeline section into
+# the system prompt, and serves the 军机处 kanban at /edict/.
+- insert:
+    - id: edict
+      name: dsh-edict
