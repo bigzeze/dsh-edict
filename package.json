@@ -25,6 +25,14 @@
     "node": ">=20"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigzeze/dsh-edict.git"
+  },
+  "homepage": "https://github.com/bigzeze/dsh-edict#readme",
+  "bugs": {
+    "url": "https://github.com/bigzeze/dsh-edict/issues"
+  },
   "keywords": [
     "dsh",
     "deepseek-harness",
